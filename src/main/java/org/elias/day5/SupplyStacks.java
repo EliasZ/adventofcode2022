@@ -109,9 +109,7 @@ public class SupplyStacks {
                     }
                     Collections.reverse(toMove);
                     //System.out.println(toMove + " naar " + Integer.parseInt(s[5]));
-                    for (String s1 : toMove) {
-                        stacks.get(Integer.parseInt(s[5])).push(s1);
-                    }
+                    stacks.get(Integer.parseInt(s[5])).addAll(toMove);
                 }
             }
         } catch (Exception e) {
