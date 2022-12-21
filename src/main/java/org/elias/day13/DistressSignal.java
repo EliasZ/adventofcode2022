@@ -3,6 +3,8 @@ package org.elias.day13;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -13,19 +15,17 @@ public class DistressSignal {
     private final String file;
 
     public static void main(String[] args) {
-        new DistressSignal("/13/input_test.txt").solveA();
-        new DistressSignal("/13/input.txt").solveA();
-
-        /*new DistressSignal("/13/input_test.txt").solveB();
-        new DistressSignal("/13/input.txt").solveB();*/
+        new DistressSignal("/13/input_test.txt").solve();
+        new DistressSignal("/13/input.txt").solve();
     }
 
     public DistressSignal(String s) {
         this.file = s;
     }
 
-    void solveA() {
+    void solve() {
         int indexSum = 0;
+        List<List<Object>> all = new ArrayList<>();
 
         try (BufferedReader br = new BufferedReader(new InputStreamReader(this.getClass().getResourceAsStream(file)))) {
             String line;
@@ -41,12 +41,20 @@ public class DistressSignal {
                 if (compareLists(left, right) <= 0) {
                     indexSum += index;
                 }
+                all.add(left);
+                all.add(right);
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
 
         System.out.println("indexSum = " + indexSum);
+        List<Object> p2 = parse("[[2]]");
+        List<Object> p6 = parse("[[6]]");
+        all.add(p2);
+        all.add(p6);
+        all.sort(this::compareLists);
+        System.out.println("key = " + (all.indexOf(p2) + 1) * (all.indexOf(p6) + 1));
     }
 
     private int compareLists(List<Object> a, List<Object> b) {
